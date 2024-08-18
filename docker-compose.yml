@@ -1,0 +1,19 @@
+version: '3'
+services:
+  current-weather-service:
+    build: ./current_weather_service
+    ports:
+      - "5001:5001"
+  
+  forecast-service:
+    build: ./forecast_service
+    ports:
+      - "5002:5002"
+
+  gateway-service:
+    build: ./gateway_service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - current-weather-service
+      - forecast-service
