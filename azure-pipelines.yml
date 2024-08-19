@@ -6,11 +6,6 @@ pool:
   name: Default
 
 steps:
-# - task: DockerInstaller@0
-#   displayName: Install Docker
-#   inputs:
-#     dockerVersion: 'latest'
-
 - task: Docker@2
   displayName: Login to Docker Hub
   inputs:
@@ -18,7 +13,7 @@ steps:
     command: 'login'
 
 - task: Docker@2
-  displayName: 'Build and push Docker image'
+  displayName: 'Build and push Current Weather Docker image'
   inputs:
     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
@@ -27,16 +22,16 @@ steps:
     tags: 'currentweather'  # Tags for the Docker image
 
 - task: Docker@2
-  displayName: 'Build and push Docker image'
+  displayName: 'Build and push Forecast Weather Docker image'
   inputs:
     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
     command: 'buildAndPush'
-    Dockerfile: 'forecast_weather_service/Dockerfile'  # Path to the Dockerfile
+    Dockerfile: 'forecast_service/Dockerfile'  # Path to the Dockerfile
     tags: 'forecastweather'  # Tags for the Docker image
 
 - task: Docker@2
-  displayName: 'Build and push Docker image'
+  displayName: 'Build and push Gateway Docker image'
   inputs:
     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
