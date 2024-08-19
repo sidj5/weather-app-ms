@@ -24,7 +24,7 @@ steps:
     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
     command: 'buildAndPush'
     Dockerfile: 'current_weather_service/Dockerfile'  # Path to the Dockerfile
-    tags: 'currentweather:latest'  # Tags for the Docker image
+    tags: 'currentweather'  # Tags for the Docker image
 
 # - script: |
 #     # Build Docker images
