@@ -5,10 +5,10 @@ pool:
   name: Default
 
 steps:
-- task: DockerInstaller@0
-  displayName: Install Docker
-  inputs:
-    dockerVersion: 'latest'
+# - task: DockerInstaller@0
+#   displayName: Install Docker
+#   inputs:
+#     dockerVersion: 'latest'
 
 - task: Docker@2
   displayName: Login to Docker Hub
