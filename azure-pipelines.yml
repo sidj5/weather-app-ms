@@ -1,3 +1,4 @@
+
 trigger:
 - main
 
@@ -16,19 +17,28 @@ steps:
     containerRegistry: 'DockerHub' # Define Docker Hub service connection in Azure DevOps
     command: 'login'
 
-- script: |
-    # Build Docker images
-    docker build -t $(dockerHubUsername)/weather-app-ms_currentweather -f current_weather_service/Dockerfile current_weather_service
-    # docker build -t $(dockerHubUsername)/forecast_weather_service:$(Build.BuildId) -f historical_weather_service/Dockerfile historical_weather_service
-    # docker build -t $(dockerHubUsername)/gateway_service:$(Build.BuildId) -f gateway_service/Dockerfile gateway_service
-  displayName: Build Docker Images
+- task: Docker@2
+  displayName: 'Build and push Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'current_weather_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'currentweather:latest'  # Tags for the Docker image
 
-- script: |
-    # Push Docker images to Docker Hub
-    docker push $(dockerHubUsername)/weather-app-ms_current_weather_service:$(Build.BuildId)
-    # docker push $(dockerHubUsername)/historical_weather_service:$(Build.BuildId)
-    # docker push $(dockerHubUsername)/gateway_service:$(Build.BuildId)
-  displayName: Push Docker Images to Docker Hub
+# - script: |
+#     # Build Docker images
+#     docker build -t $(dockerHubUsername)/weather-app-ms_currentweather -f current_weather_service/Dockerfile current_weather_service
+#     # docker build -t $(dockerHubUsername)/forecast_weather_service:$(Build.BuildId) -f historical_weather_service/Dockerfile historical_weather_service
+#     # docker build -t $(dockerHubUsername)/gateway_service:$(Build.BuildId) -f gateway_service/Dockerfile gateway_service
+#   displayName: Build Docker Images
+
+# - script: |
+#     # Push Docker images to Docker Hub
+#     docker push $(dockerHubUsername)/weather-app-ms_current_weather_service:$(Build.BuildId)
+#     # docker push $(dockerHubUsername)/historical_weather_service:$(Build.BuildId)
+#     # docker push $(dockerHubUsername)/gateway_service:$(Build.BuildId)
+#   displayName: Push Docker Images to Docker Hub
 
 - task: Docker@2
   displayName: Logout from Docker Hub
