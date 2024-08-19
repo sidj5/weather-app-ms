@@ -26,6 +26,24 @@ steps:
     Dockerfile: 'current_weather_service/Dockerfile'  # Path to the Dockerfile
     tags: 'currentweather'  # Tags for the Docker image
 
+- task: Docker@2
+  displayName: 'Build and push Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'forecast_weather_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'forecastweather'  # Tags for the Docker image
+
+- task: Docker@2
+  displayName: 'Build and push Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'gateway_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'gateway'  # Tags for the Docker image
+
 # - script: |
 #     # Build Docker images
 #     docker build -t $(dockerHubUsername)/weather-app-ms_currentweather -f current_weather_service/Dockerfile current_weather_service
