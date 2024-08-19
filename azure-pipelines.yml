@@ -39,24 +39,10 @@ steps:
     Dockerfile: 'gateway_service/Dockerfile'  # Path to the Dockerfile
     tags: 'gateway'  # Tags for the Docker image
 
-# - script: |
-#     # Build Docker images
-#     docker build -t $(dockerHubUsername)/weather-app-ms_currentweather -f current_weather_service/Dockerfile current_weather_service
-#     # docker build -t $(dockerHubUsername)/forecast_weather_service:$(Build.BuildId) -f historical_weather_service/Dockerfile historical_weather_service
-#     # docker build -t $(dockerHubUsername)/gateway_service:$(Build.BuildId) -f gateway_service/Dockerfile gateway_service
-#   displayName: Build Docker Images
-
-# - script: |
-#     # Push Docker images to Docker Hub
-#     docker push $(dockerHubUsername)/weather-app-ms_current_weather_service:$(Build.BuildId)
-#     # docker push $(dockerHubUsername)/historical_weather_service:$(Build.BuildId)
-#     # docker push $(dockerHubUsername)/gateway_service:$(Build.BuildId)
-#   displayName: Push Docker Images to Docker Hub
-
 - task: Docker@2
   displayName: Logout from Docker Hub
   inputs:
     command: 'logout'
     
-# - script: |
-#     ansible-playbook -i inventory.yaml playbook.yaml
+- script: |
+    ansible-playbook -i inventory.yaml playbook.yaml
