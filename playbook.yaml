@@ -137,7 +137,7 @@
 
     - name: Calculate elapsed time
       set_fact:
-        elapsed_time: "{{ (end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) | int - (start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
+        elapsed_time: "{{ (end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) | int - (start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) | int }}"
 
     - name: Print execution time for this host
       debug:
