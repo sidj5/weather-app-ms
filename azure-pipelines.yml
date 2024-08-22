@@ -5,6 +5,9 @@ trigger:
 pool:
   name: Default
 
+variables:
+- group: AnsiblePassword
+
 steps:
 - task: Docker@2
   displayName: Login to Docker Hub
@@ -45,4 +48,12 @@ steps:
     command: 'logout'
     
 - script: |
-    ansible-playbook -i inventory.yaml playbook.yaml
+    echo "$Ansible_Vault_Password" > vault-pass.txt
+    time ansible-playbook -i inventory.yaml --vault-password-file vault-pass.txt playbook.yaml
+  env:
+    Ansible_Vault_Password: $(Ansible_Vault_Password)
+  displayName: Run Ansible Playbook
+
+- script: |
+    rm -f vault-pass.txt
+  displayName: 'Cleanup Vault Password File'
