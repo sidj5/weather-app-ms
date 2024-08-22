@@ -43,96 +43,101 @@
         state: latest
         update_cache: true
 
-    - name: Add Docker GPG apt Key
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+    # - name: Add Docker GPG apt Key
+    #   ansible.builtin.apt_key:
+    #     url: https://download.docker.com/linux/ubuntu/gpg
+    #     state: present
 
-    - name: Add Docker Repository
-      ansible.builtin.apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
-        state: present
+    # - name: Add Docker Repository
+    #   ansible.builtin.apt_repository:
+    #     repo: deb https://download.docker.com/linux/ubuntu focal stable
+    #     state: present
 
-    - name: Update apt and install docker-ce
-      ansible.builtin.apt:
-        name: docker-ce
-        state: latest
-        update_cache: true
+    # - name: Update apt and install docker-ce
+    #   ansible.builtin.apt:
+    #     name: docker-ce
+    #     state: latest
+    #     update_cache: true
 
-    - name: Add Docker group
-      ansible.builtin.group:
-        name: docker
-        state: present
+    # - name: Add Docker group
+    #   ansible.builtin.group:
+    #     name: docker
+    #     state: present
 
-    - name: Get Logged in User
-      ansible.builtin.command: whoami
-      register: logged_user
+    # - name: Get Logged in User
+    #   ansible.builtin.command: whoami
+    #   register: logged_user
 
-    - name: Add Docker user
-      ansible.builtin.user:
-        name: "{{ logged_user.stdout }}"
-        groups: "docker"
-        append: true    
+    # - name: Add Docker user
+    #   ansible.builtin.user:
+    #     name: "{{ logged_user.stdout }}"
+    #     groups: "docker"
+    #     append: true    
 
-    - name: Install Docker Module for Python
-      ansible.builtin.pip:
-        name: docker
+    # - name: Install Docker Module for Python
+    #   ansible.builtin.pip:
+    #     name: docker
 
-    - name: Start Docker
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
+    # - name: Start Docker
+    #   ansible.builtin.service:
+    #     name: docker
+    #     state: started
+    #     enabled: true
     
-    - name: Create Docker network
-      community.docker.docker_network:
-        name: "{{ docker_network }}"
-        driver: bridge
+    # - name: Create Docker network
+    #   community.docker.docker_network:
+    #     name: "{{ docker_network }}"
+    #     driver: bridge
     
-    - name: Pull image from repository
-      ansible.builtin.shell: |
-        docker login {{ registry_url }} --username {{ docker_hub_username }} --password {{ docker_hub_password }}
-        docker pull {{ registry_url }}/{{ current_weather_image }}
-        docker pull {{ registry_url }}/{{ forecast_weather_image }}
-        docker pull {{ registry_url }}/{{ gateway_image }}
+    # - name: Pull image from repository
+    #   ansible.builtin.shell: |
+    #     docker login {{ registry_url }} --username {{ docker_hub_username }} --password {{ docker_hub_password }}
+    #     docker pull {{ registry_url }}/{{ current_weather_image }}
+    #     docker pull {{ registry_url }}/{{ forecast_weather_image }}
+    #     docker pull {{ registry_url }}/{{ gateway_image }}
 
-    - name: Start the Service 1 container
-      community.docker.docker_container:
-        name: "{{ service1 }}"
-        image: "{{ registry_url }}/{{ current_weather_image }}"
-        state: started
-        networks:
-          - name: "{{ docker_network }}"
-        ports:
-          - "5001:5001"
+    # - name: Start the Service 1 container
+    #   community.docker.docker_container:
+    #     name: "{{ service1 }}"
+    #     image: "{{ registry_url }}/{{ current_weather_image }}"
+    #     state: started
+    #     networks:
+    #       - name: "{{ docker_network }}"
+    #     ports:
+    #       - "5001:5001"
 
-    - name: Start the Service 2 container
-      community.docker.docker_container:
-        name: "{{ service2 }}"
-        image: "{{ registry_url }}/{{ forecast_weather_image }}"
-        state: started
-        networks:
-          - name: "{{ docker_network }}"
-        ports:
-          - "5002:5002"
+    # - name: Start the Service 2 container
+    #   community.docker.docker_container:
+    #     name: "{{ service2 }}"
+    #     image: "{{ registry_url }}/{{ forecast_weather_image }}"
+    #     state: started
+    #     networks:
+    #       - name: "{{ docker_network }}"
+    #     ports:
+    #       - "5002:5002"
 
-    - name: Start the Service 3 container
-      community.docker.docker_container:
-        name: "{{ service3 }}"
-        image: "{{ registry_url }}/{{ gateway_image }}"
-        state: started
-        networks:
-          - name: "{{ docker_network }}"
-        ports:
-          - "5000:5000"
+    # - name: Start the Service 3 container
+    #   community.docker.docker_container:
+    #     name: "{{ service3 }}"
+    #     image: "{{ registry_url }}/{{ gateway_image }}"
+    #     state: started
+    #     networks:
+    #       - name: "{{ docker_network }}"
+    #     ports:
+    #       - "5000:5000"
 
     - name: Record end time
       set_fact:
         end_time: "{{ ansible_date_time.iso8601 }}"
 
+    - name: Convert start and end times to datetime objects
+      set_fact:
+        start_time_obj: "{{ start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+        end_time_obj: "{{ end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+
     - name: Calculate elapsed time
       set_fact:
-        elapsed_time: "{{ (end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) - (start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
+        elapsed_time: "{{ end_time_obj - start_time_obj }}"
 
     - name: Print execution time for this host
       debug:
