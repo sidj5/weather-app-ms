@@ -21,10 +21,6 @@
     docker_network: "weather_app_net"
   
   tasks:
-    - name: Record start time
-      set_fact:
-        start_time: "{{ ansible_date_time.iso8601 | to_datetime | timestamp }}"
-
     - name: Install aptitude
       ansible.builtin.apt:
         name: aptitude
@@ -124,22 +120,5 @@
     #     networks:
     #       - name: "{{ docker_network }}"
     #     ports:
-    #       - "5000:5000"
-
-    - name: Record end time
-      set_fact:
-        end_time: "{{ ansible_date_time.iso8601 | to_datetime | timestamp }}"
-
-    # - name: Convert start and end times to datetime objects
-    #   set_fact:
-    #     start_time_obj: "{{ start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
-    #     end_time_obj: "{{ end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
-
-    - name: Calculate elapsed time
-      set_fact:
-        elapsed_time: "{{ end_time - start_time }}"
-
-    - name: Print execution time for this host
-      debug:
-        msg: "Execution time on {{ inventory_hostname }}: {{ elapsed_time }} seconds"      
+    #       - "5000:5000"    
         
