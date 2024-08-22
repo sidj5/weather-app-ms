@@ -130,14 +130,14 @@
       set_fact:
         end_time: "{{ ansible_date_time.iso8601 }}"
 
-    - name: Convert start and end times to datetime objects
-      set_fact:
-        start_time_obj: "{{ start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
-        end_time_obj: "{{ end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+    # - name: Convert start and end times to datetime objects
+    #   set_fact:
+    #     start_time_obj: "{{ start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+    #     end_time_obj: "{{ end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
     - name: Calculate elapsed time
       set_fact:
-        elapsed_time: "{{ end_time_obj - start_time_obj }}"
+        elapsed_time: "{{ (end_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) | int - (start_time | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
 
     - name: Print execution time for this host
       debug:
