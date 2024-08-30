@@ -64,6 +64,7 @@
     - name: Get Logged in User
       ansible.builtin.command: whoami
       register: logged_user
+      become: false
 
     - name: Add Docker user
       ansible.builtin.user:
