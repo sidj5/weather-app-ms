@@ -127,17 +127,17 @@
     - name: Download node exporter tar file
       get_url:
         url: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
-        dest: /home/"{{ logged_user.stdout }}"/
+        dest: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
 
     - name: Unarchive tar.gz file
       unarchive:
         remote_src: yes
-        src: /home/"{{ logged_user.stdout }}"/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
-        dest: /home/"{{ logged_user.stdout }}"/
+        src: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
+        dest: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64
 
     - name: Move to /usr/local/bin
       copy:
-        src: /home/"{{ logged_user.stdout }}"/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
+        src: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
         dest: /usr/local/bin/node_exporter
         remote_src: yes
         owner: root
