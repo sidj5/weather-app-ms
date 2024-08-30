@@ -133,7 +133,7 @@
       unarchive:
         remote_src: yes
         src: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
-        dest: /home/{{ logged_user.stdout }}/node_exporter-{{ node_exporter_version }}.linux-amd64
+        dest: /home/{{ logged_user.stdout }}/
 
     - name: Move to /usr/local/bin
       copy:
