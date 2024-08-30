@@ -19,6 +19,7 @@
           3730623937346363390a356366323831363564373334626139383766356234333965353538396461
           6663
     docker_network: "weather_app_net"
+    node_exporter_version: "1.6.1"
   
   tasks:
     - name: Install aptitude
@@ -120,5 +121,40 @@
         networks:
           - name: "{{ docker_network }}"
         ports:
-          - "5000:5000"    
+          - "5000:5000"
+
+    - name: Download node exporter tar file
+      get_url:
+        url: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
+        dest: /home/"{{ logged_user.stdout }}"/
+
+    - name: Unarchive tar.gz file
+      unarchive:
+        remote_src: yes
+        src: /home/"{{ logged_user.stdout }}"/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
+        dest: /home/"{{ logged_user.stdout }}"/
+
+    - name: Move to /usr/local/bin
+      copy:
+        src: /home/"{{ logged_user.stdout }}"/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
+        dest: /usr/local/bin/node_exporter
+        remote_src: yes
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Install unit file to systemd
+      template:
+        src: templates/node_exporter.service.j2
+        dest: /etc/systemd/system/node_exporter.service
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Reload systemd to use service
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name: node_exporter.service
         
