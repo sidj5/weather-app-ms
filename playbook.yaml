@@ -143,10 +143,18 @@
         owner: root
         group: root
         mode: 0755
+    
+    - name: Create node_exporter user
+      ansible.builtin.user:
+        name: node_exporter
+        shell: /bin/false
+        system: yes
+        create_home: no
+        state: present
 
     - name: Install unit file to systemd
       template:
-        src: templates/node_exporter.service.j2
+        src: node_exporter/node_exporter.service.j2
         dest: /etc/systemd/system/node_exporter.service
         owner: root
         group: root
