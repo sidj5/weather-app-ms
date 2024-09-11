@@ -9,43 +9,43 @@ variables:
 - group: AnsiblePassword
 
 steps:
-# - task: Docker@2
-#   displayName: Login to Docker Hub
-#   inputs:
-#     containerRegistry: 'DockerHub' # Define Docker Hub service connection in Azure DevOps
-#     command: 'login'
+- task: Docker@2
+  displayName: Login to Docker Hub
+  inputs:
+    containerRegistry: 'DockerHub' # Define Docker Hub service connection in Azure DevOps
+    command: 'login'
 
-# - task: Docker@2
-#   displayName: 'Build and push Current Weather Docker image'
-#   inputs:
-#     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
-#     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
-#     command: 'buildAndPush'
-#     Dockerfile: 'current_weather_service/Dockerfile'  # Path to the Dockerfile
-#     tags: 'currentweather'  # Tags for the Docker image
+- task: Docker@2
+  displayName: 'Build and push Current Weather Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'current_weather_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'currentweather'  # Tags for the Docker image
 
-# - task: Docker@2
-#   displayName: 'Build and push Forecast Weather Docker image'
-#   inputs:
-#     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
-#     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
-#     command: 'buildAndPush'
-#     Dockerfile: 'forecast_service/Dockerfile'  # Path to the Dockerfile
-#     tags: 'forecastweather'  # Tags for the Docker image
+- task: Docker@2
+  displayName: 'Build and push Forecast Weather Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'forecast_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'forecastweather'  # Tags for the Docker image
 
-# - task: Docker@2
-#   displayName: 'Build and push Gateway Docker image'
-#   inputs:
-#     containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
-#     repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
-#     command: 'buildAndPush'
-#     Dockerfile: 'gateway_service/Dockerfile'  # Path to the Dockerfile
-#     tags: 'gateway'  # Tags for the Docker image
+- task: Docker@2
+  displayName: 'Build and push Gateway Docker image'
+  inputs:
+    containerRegistry: 'DockerHub'  # Azure DevOps service connection to Docker Hub
+    repository: 'sidj5297/weather-app-ms'  # Docker Hub repository name
+    command: 'buildAndPush'
+    Dockerfile: 'gateway_service/Dockerfile'  # Path to the Dockerfile
+    tags: 'gateway'  # Tags for the Docker image
 
-# - task: Docker@2
-#   displayName: Logout from Docker Hub
-#   inputs:
-#     command: 'logout'
+- task: Docker@2
+  displayName: Logout from Docker Hub
+  inputs:
+    command: 'logout'
     
 - script: |
     echo "$Ansible_Vault_Password" > vault-pass.txt

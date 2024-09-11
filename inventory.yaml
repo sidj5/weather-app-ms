@@ -1,22 +1,18 @@
 all:
   hosts:
-    # vm1:
-    #   ansible_host: 10.0.0.5
-    #   ansible_user: remote_vm1
+    vm1:
+      ansible_host: 10.0.0.5
+      ansible_user: remote_vm1
     
-    # vm2:
-    #   ansible_host: 20.79.189.158
-    #   ansible_user: remote_vm2
+    vm2:
+      ansible_host: 20.79.189.158
+      ansible_user: remote_vm2
 
-    # vm3:
-    #   ansible_host: 104.43.110.181
-    #   ansible_user: remote_vm3
+    vm3:
+      ansible_host: 104.43.110.181
+      ansible_user: remote_vm3
 
-    # bms1:
-    #   ansible_host: 147.28.230.1
-    #   ansible_user: remote-bms1
-
-    vm4:
-      ansible_host: 52.146.40.170
-      ansible_user: remote_vm4
+    bms1:
+      ansible_host: 147.28.230.1
+      ansible_user: remote-bms1
       
