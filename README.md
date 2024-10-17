@@ -1,2 +1,2 @@
 # weather-app-ms
-This is the repository for the TU Ilmenau Research Project for SS2024. This contains a weather app code using microservice based architecture.
+This is the repository for the TU Ilmenau Research Project for SS2024. This contains a weather app code using microservice based architecture that displays the weather of the city that the user inputs. Then there is the Azure pipelines configuration to build and push the docker images to the container registry. The pipeline also runs the Ansible playbook that installs the necessary packages to the target servers, pulls the docker images and run the containers on the target servers.
